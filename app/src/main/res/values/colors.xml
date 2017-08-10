@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="textColorBookDetails">#B4BAC0</color>
+
+    <color name="textColorAuthorDetails">#2B3D4D</color>
+    <color name="colorAAccent">#10CAC9</color>
+
+    <color name="magnitude1">#4A7BA7</color>
+
+
+    <color name="magnitude2">#04B4B3</color>
+
+
+    <color name="magnitude3">#10CAC9</color>
+
+</resources>
