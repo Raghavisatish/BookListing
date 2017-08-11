@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by ragha on 8/8/2017.
  */
 
-public class Initialize {
+public class Book1 {
 
     private String mThumbnail;
     private String mTitle;
@@ -14,7 +14,7 @@ public class Initialize {
     private String mDescription;
     private String mInfoLinkUrl;
 
-    public Initialize(String thumbnail, String title, ArrayList<String> author, String desc, String infoLinkUrl) {
+    public Book1(String thumbnail, String title, ArrayList<String> author, String desc, String infoLinkUrl) {
         mThumbnail = thumbnail;
         mTitle = title;
         mAuthor = author;

@@ -28,7 +28,7 @@ public final class QueryClass {
     private QueryClass() {
     }
 
-    public static List<Initialize> fetchBookData(String requestUrl) {
+    public static List<Book1> fetchBookData(String requestUrl) {
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
         try {
@@ -36,7 +36,7 @@ public final class QueryClass {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-        List<Initialize> books = extractFeatureFromJson(jsonResponse);
+        List<Book1> books = extractFeatureFromJson(jsonResponse);
         return books;
     }
 
@@ -101,14 +101,14 @@ public final class QueryClass {
     }
 
     @Nullable
-    private static List<Initialize> extractFeatureFromJson(String bookJSON) {
+    private static List<Book1> extractFeatureFromJson(String bookJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(bookJSON)) {
             return null;
         }
 
         // Create an empty ArrayList that we can start adding book to
-        List<Initialize> books = new ArrayList<>();
+        List<Book1> books = new ArrayList<>();
         try {
             JSONObject baseJsonResponse = new JSONObject(bookJSON);
 
@@ -161,7 +161,7 @@ public final class QueryClass {
                     }
 
 
-                    Initialize book = new Initialize(thumbnail, title, authors, description, infoLink);
+                    Book1 book = new Book1(thumbnail, title, authors, description, infoLink);
 
                     books.add(book);
                 }

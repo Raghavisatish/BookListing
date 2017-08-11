@@ -11,7 +11,7 @@ import java.util.List;
  * Created by ragha on 8/8/2017.
  */
 
-public class BookLoader extends AsyncTaskLoader<List<Initialize>> {
+public class BookLoader extends AsyncTaskLoader<List<Book1>> {
 
     private String mUrl;
 
@@ -26,13 +26,13 @@ public class BookLoader extends AsyncTaskLoader<List<Initialize>> {
     }
 
     @Override
-    public List<Initialize> loadInBackground() {
+    public List<Book1> loadInBackground() {
         if (mUrl == null) {
             return null;
         }
 
         // Perform the network request, parse the response, and extract a list of books.
-        List<Initialize> books = QueryClass.fetchBookData(mUrl);
+        List<Book1> books = QueryClass.fetchBookData(mUrl);
         return books;
     }
 }

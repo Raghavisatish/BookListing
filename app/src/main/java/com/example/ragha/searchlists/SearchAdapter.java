@@ -18,16 +18,16 @@ import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    ArrayList<Initialize> mBook;
+    ArrayList<Book1> mBook;
     MainActivity mContext;
 
     private static OnItemClickListener mListener;
 
     public interface OnItemClickListener {
-        void onItemClick(Initialize book);
+        void onItemClick(Book1 book);
     }
 
-    public SearchAdapter(MainActivity context, ArrayList<Initialize> book, OnItemClickListener listener) {
+    public SearchAdapter(MainActivity context, ArrayList<Book1> book, OnItemClickListener listener) {
         mContext = context;
         mBook = book;
         mListener = listener;
@@ -41,7 +41,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(SearchAdapter.ViewHolder holder, int position) {
-        Initialize book = mBook.get(position);
+        Book1 book = mBook.get(position);
         holder.bookTitle.setText(book.getTitleId());
         holder.bookAuthor.setText(book.getAuthorId());
         Picasso.with(mContext).load(book.getThumbnailId()).into(holder.bookImageView);
@@ -69,7 +69,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             bookDescription = (TextView) itemView.findViewById(R.id.Bookdescription);
         }
 
-        public void bind(final Initialize book, final OnItemClickListener listener) {
+        public void bind(final Book1 book, final OnItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,7 +84,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Initialize> book) {
+    public void addAll(List<Book1> book) {
         mBook.addAll(book);
         notifyDataSetChanged();
     }

@@ -26,7 +26,7 @@ import java.util.List;
 
 import static android.view.View.GONE;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Initialize>> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book1>> {
 
     private static final String Book_URL = "https://www.googleapis.com/books/v1/volumes?q=";
 
@@ -60,15 +60,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onClick(View v) {
 
                 // Create a new adapter that takes an empty list of book as input
-                mAdapter = new SearchAdapter(MainActivity.this, new ArrayList<Initialize>(), new SearchAdapter.OnItemClickListener() {
+
+                mAdapter=new SearchAdapter(MainActivity.this, new ArrayList<Book1>(), new SearchAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(Initialize book) {
+                    public void onItemClick(Book1 book) {
                         String url = book.getInfoLinkId();
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(url));
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+
+                            startActivity(intent);  //where intent is your intent
+
+                        }
+
                     }
                 });
+
+
+
+
 
                 // Set the adapter on the {@link RecyclerView}
                 mRecyclerView.setAdapter(mAdapter);
@@ -105,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     @Override
-    public Loader<List<Initialize>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<Book1>> onCreateLoader(int id, Bundle args) {
         mLoadingIndicator.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(GONE);
         String searchInput = mActionSearchEditText.getText().toString();
@@ -117,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Initialize>> loader, List<Initialize> book) {
+    public void onLoadFinished(Loader<List<Book1>> loader, List<Book1> book) {
         mEmptyStateTextView.setVisibility(View.VISIBLE);
         mLoadingIndicator.setVisibility(View.GONE);
 
@@ -140,14 +150,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
+    public void onLoaderReset(Loader<List<Book1>> loader) {
+        mAdapter.clear();
+
+
+
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
-    @Override
-    public void onLoaderReset(Loader<List<Initialize>> loader) {
-        // Loader reset, so we can clear out our existing data.
-        mAdapter.clear();
-
-    }
 }
