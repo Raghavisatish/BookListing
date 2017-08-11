@@ -1,92 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/BookCover"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="8dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/BookTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_toRightOf="@+id/BookCover"
+        android:text="@string/title"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/colorAccent"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/BookAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/BookTitle"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/BookCover"
+        android:text="@string/author"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/colorPrimaryDark"
+        tools:ignore="RtlHardcoded" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/layout"
-        android:orientation="horizontal">
+        android:layout_below="@+id/BookAuthor"
+        android:orientation="vertical"
+        android:paddingTop="20dp">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/background"
-            android:id="@+id/image"/>
+        <TextView
+            android:id="@+id/Bookdescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/description" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bookTitle"
-            android:text="@string/author"
-            android:textStyle="bold"
+            android:paddingBottom="30dp"
+            android:paddingLeft="50dp"
+            android:text="@string/tap"
             android:textAllCaps="true"
-            android:textColor="@color/colorAccent"
-            android:textSize="20sp"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:id="@+id/layout1"
-        android:orientation="horizontal"
-        android:layout_below="@+id/layout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/author"
-            android:id="@+id/text"
-            android:textSize="20sp"
-            android:layout_gravity="end"
-            android:paddingRight="10dp"/>
-
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/authors"
-            android:text="this"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:layout_centerInParent="true" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout2"
-        android:layout_below="@+id/layout1"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/description"
-            android:text="@string/description"
-            android:paddingTop="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:textAllCaps="true"
-            android:text="@string/tap"/>
-
-
+            android:textStyle="bold" />
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

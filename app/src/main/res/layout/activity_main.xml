@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/horizontal_layout"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight= "8dp">
+        android:layout_height="wrap_content">
+
         <EditText
-            android:id="@+id/album_description_view"
-            android:layout_width="0dp"
+            android:id="@+id/edit_text_search"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:hint="Search Author Name Here "
-            android:inputType="textMultiLine" />
-        <Button
-            android:id="@+id/searchButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Search"/>
+            android:layout_margin="16dp"
+            android:hint="@string/search_hint" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/action_search"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/edit_text_search"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="24dp"
+            android:src="@drawable/ic_search_black_24dp"
+            tools:ignore="ContentDescription,RtlHardcoded" />
 
-    <ListView
-        android:id="@+id/list"
-        android:orientation="vertical"
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/horizontal_layout"
-        android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:drawSelectorOnTop="true"
+        android:scrollbars="vertical"
+        app:layout_scrollFlags="scroll|enterAlways" />
 
-
+    <!-- Empty view is only visible when the list has no items. -->
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:textAppearance="?android:textAppearanceMedium" />
 
 
     <ProgressBar
-        android:id="@+id/loading_indicator"
+        android:id="@+id/progressbar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp" />
 
-</RelativeLayout>
+</LinearLayout>

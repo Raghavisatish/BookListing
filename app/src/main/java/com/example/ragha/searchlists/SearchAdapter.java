@@ -1,59 +1,91 @@
 package com.example.ragha.searchlists;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Created by ragha on 8/8/2017.
  */
 
-public class SearchAdapter extends ArrayAdapter<initialize> {
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 
-    public SearchAdapter(Context context,List<initialize> quakes) {super(context, 0, quakes);}
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
+    ArrayList<Initialize> mBook;
+    MainActivity mContext;
 
-    @NonNull
+    private static OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Initialize book);
+    }
+
+    public SearchAdapter(MainActivity context, ArrayList<Initialize> book, OnItemClickListener listener) {
+        mContext = context;
+        mBook = book;
+        mListener = listener;
+    }
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View listItemView=convertView;
-        if(listItemView==null){
-            listItemView= LayoutInflater.from(getContext()).inflate(R.layout.list,parent,false);}
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list, parent, false);
+        return new ViewHolder(view);
+    }
 
-        initialize cuttentItem=getItem(position);
+    @Override
+    public void onBindViewHolder(SearchAdapter.ViewHolder holder, int position) {
+        Initialize book = mBook.get(position);
+        holder.bookTitle.setText(book.getTitleId());
+        holder.bookAuthor.setText(book.getAuthorId());
+        Picasso.with(mContext).load(book.getThumbnailId()).into(holder.bookImageView);
+        holder.bookDescription.setText(book.getmDescription());
+        holder.bind(mBook.get(position), mListener);
+    }
 
-        TextView bookName= (TextView) listItemView.findViewById(R.id.bookTitle);
-        bookName.setText(cuttentItem.getmTitle());
+    @Override
+    public int getItemCount() {
+        return mBook.size();
+    }
 
-        TextView authorName= (TextView) listItemView.findViewById(R.id.authors);
-        String authors = "";
-        for (int i = 0; i < cuttentItem.getmAuthors().length; i++){
-            if (authors.isEmpty()) {
-                authors = cuttentItem.getmAuthors()[i];
-            } else{
-                authors = authors + " and " + cuttentItem.getmAuthors()[i];
-            }
-            authorName.setText(authors);
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView bookImageView;
+        TextView bookTitle;
+        TextView bookAuthor;
+        TextView bookDescription;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            bookImageView = (ImageView) itemView.findViewById(R.id.BookCover);
+            bookTitle = (TextView) itemView.findViewById(R.id.BookTitle);
+            bookAuthor = (TextView) itemView.findViewById(R.id.BookAuthor);
+            bookDescription = (TextView) itemView.findViewById(R.id.Bookdescription);
         }
 
-        TextView descriptionTextView = (TextView) listItemView.findViewById(R.id.description);
-        String bookDescription = cuttentItem.getmDescription();
-        descriptionTextView.setText(bookDescription);
+        public void bind(final Initialize book, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(book);
+                }
+            });
+        }
+    }
 
+    public void clear() {
+        mBook.clear();
+        notifyDataSetChanged();
+    }
 
-
-        return listItemView;
-
+    public void addAll(List<Initialize> book) {
+        mBook.addAll(book);
+        notifyDataSetChanged();
     }
 }
-

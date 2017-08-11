@@ -1,5 +1,7 @@
 package com.example.ragha.searchlists;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,55 +20,15 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+public final class QueryClass {
 
-/**
- * Created by ragha on 8/8/2017.
- */
 
-public class QueryClass {
     private static final String LOG_TAG = QueryClass.class.getSimpleName();
-
 
     private QueryClass() {
     }
 
-    private static List<initialize> extractFeatureFromJson(String booksJSON) {
-
-        if (TextUtils.isEmpty(booksJSON)) {
-            return null;
-        }
-
-        List<initialize> books = new ArrayList<>();
-
-
-            try{
-                JSONObject baseJsonResponse = new JSONObject(booksJSON);
-                JSONArray bookArray = baseJsonResponse.getJSONArray("items");
-                for (int i = 0; i < bookArray.length(); i++){
-                    JSONObject currentBook = bookArray.getJSONObject(i);
-
-                    JSONObject bookInformation = currentBook.getJSONObject("volumeInfo");
-                    String title = bookInformation.getString("title");
-                    JSONArray authorsArrayJSON = bookInformation.getJSONArray("authors");
-                    String[] authorsArrayStrings = new String[authorsArrayJSON.length()];
-                    for(int j = 0; j < authorsArrayStrings.length; j++){
-                        authorsArrayStrings[j] = authorsArrayJSON.getString(j);
-                    }
-                    String description = bookInformation.getString("description");
-                    String infoLink = bookInformation.getString("infoLink");
-                    initialize book = new initialize(title, authorsArrayStrings, description, infoLink);
-                    books.add(book);
-                }
-            } catch (JSONException e){
-                Log.e(LOG_TAG, "Problem extracting from the JSON string", e);
-            }
-            return books;
-        }
-
-
-
-    public static List<initialize> fetchBookData(String requestUrl) {
-
+    public static List<Initialize> fetchBookData(String requestUrl) {
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
         try {
@@ -74,11 +36,9 @@ public class QueryClass {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-
-        List<initialize> books = extractFeatureFromJson(jsonResponse);
+        List<Initialize> books = extractFeatureFromJson(jsonResponse);
         return books;
     }
-
 
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -92,6 +52,7 @@ public class QueryClass {
 
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
+
         if (url == null) {
             return jsonResponse;
         }
@@ -105,31 +66,26 @@ public class QueryClass {
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            // If the request was successful (response code 200),
-            // then read the input stream and parse the response.
-            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the books JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the book JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
             if (inputStream != null) {
-                // Closing the input stream could throw an IOException, which is why
-                // the makeHttpRequest(URL url) method signature specifies than an IOException
-                // could be thrown.
                 inputStream.close();
             }
         }
         return jsonResponse;
     }
 
-
+    @NonNull
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -142,6 +98,80 @@ public class QueryClass {
             }
         }
         return output.toString();
+    }
+
+    @Nullable
+    private static List<Initialize> extractFeatureFromJson(String bookJSON) {
+        // If the JSON string is empty or null, then return early.
+        if (TextUtils.isEmpty(bookJSON)) {
+            return null;
+        }
+
+        // Create an empty ArrayList that we can start adding book to
+        List<Initialize> books = new ArrayList<>();
+        try {
+            JSONObject baseJsonResponse = new JSONObject(bookJSON);
+
+            if (baseJsonResponse.has("items")) {
+                JSONArray bookArray = baseJsonResponse.getJSONArray("items");
+
+                for (int i = 0; i < bookArray.length(); i++) {
+                    JSONObject currentBook = bookArray.getJSONObject(i);
+                    JSONObject bookInformation = currentBook.getJSONObject("volumeInfo");
+
+                    String title;
+                    if (bookInformation.has("title")) {
+                        title = bookInformation.getString("title");
+                    } else {
+                        title = "No Title";
+                    }
+
+                    JSONArray authorsArray;
+                    ArrayList<String> authors = new ArrayList<String>();
+
+                    if (bookInformation.has("authors")) {
+                        authorsArray = bookInformation.getJSONArray("authors");
+                        for (int j = 0; j < authorsArray.length(); j++) {
+                            authors.add(authorsArray.getString(j));
+                        }
+                    } else {
+                        authors.add("No Author Name");
+                    }
+
+                    JSONObject imageLinks = bookInformation.getJSONObject("imageLinks");
+                    String thumbnail;
+                    if (imageLinks.has("thumbnail")) {
+                        thumbnail = imageLinks.getString("thumbnail");
+                    } else {
+                        thumbnail = "No Image";
+                    }
+
+                    String infoLink;
+                    if (bookInformation.has("infoLink")) {
+                        infoLink = bookInformation.getString("infoLink");
+                    } else {
+                        infoLink = "No more info link";
+                    }
+
+                    String description;
+                    if (bookInformation.has("description")) {
+                        description = bookInformation.getString("description");
+                    } else {
+                        description = "No more info available";
+                    }
+
+
+                    Initialize book = new Initialize(thumbnail, title, authors, description, infoLink);
+
+                    books.add(book);
+                }
+            }
+
+        } catch (JSONException e) {
+            Log.e("QueryUtils", "Problem parsing the book JSON results", e);
+        }
+
+        return books;
     }
 
 

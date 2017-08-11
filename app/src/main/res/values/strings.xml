@@ -4,4 +4,8 @@
     <string name="tap">tap here to view more</string>
     <string name="author"> This book is written by</string>
     <string name="title">this is the book</string>
+    <string name="search">search here by author or content</string>
+    <string name="search_hint">Type here keywords to search..</string>
+    <string name="no_book_found">Search book not found, please insert one or more another keywords to search!</string>
+    <string name="no_internet_connection">Network not found. Please connect your device to internet!</string>
 </resources>
